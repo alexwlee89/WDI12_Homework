@@ -70,7 +70,15 @@ var Color = {
 
 $(document).ready(function() {
     $("#colorpicker").on("mousemove", function(event) {
-        console.log(event.clientX, event.clientY);
+        var width = ( $(document).width() ) / 255;
+        var height = ( $(document).height() ) / 255;
+        var x = Math.round(event.clientX / width);
+        var y = Math.round(event.clientY / height);
+        var z = Math.round( (y * x) / 255 );
+        console.log(x,y,z);
+        //hex = Color.dec2hex( parseInt(dec) );
+
+        $("#colorpicker").css("background-color", "rgb(" + y + "," + x + "," + z + ")" );
     });
 
     $("#colorpicker").on("click", function() {
