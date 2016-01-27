@@ -68,24 +68,34 @@ var Color = {
 
 };
 
+var x = 0;
+var y = 0;
+var z = 0;
+var clicked = false;
+
 $(document).ready(function() {
     $("#colorpicker").on("mousemove", function(event) {
-        var width = ( $(document).width() ) / 255;
-        var height = ( $(document).height() ) / 255;
-        var x = Math.round(event.clientX / width);
-        var y = Math.round(event.clientY / height);
-        var z = Math.round( (y * x) / 255 );
-        console.log(x,y,z);
-        //hex = Color.dec2hex( parseInt(dec) );
+        if (!clicked) {
+            var width = ( $(document).width() ) / 255;
+            var height = ( $(document).height() ) / 255;
+            x = Math.round(event.clientX / width);
+            y = Math.round(event.clientY / height);
+            z = Math.round( Math.sqrt( Math.pow(x, 2) + Math.pow(y, 2) ) );
+            console.log(x,y,z);
+            //hex = Color.dec2hex( parseInt(dec) );
 
-        $("#colorpicker").css("background-color", "rgb(" + y + "," + x + "," + z + ")" );
+            $("#colorpicker").css("background-color", "rgb(" + y + "," + x + "," + z + ")" );
+        }
     });
 
     $("#colorpicker").on("click", function() {
         if ( $("#colorform").is( ":hidden" ) ) {
             $("#colorform").slideDown();
+            $("#colortext").val(x + ", " + y + ", " + z);
+            clicked = true;
         } else {
             $("#colorform").slideUp();
+            clicked = false;
         }
     });
 });
